@@ -1,0 +1,1 @@
+TMDB API 문서 https://developers.themoviedb.org/3/getting-started/languages
