@@ -2,6 +2,8 @@ import React, { useState, useCallback, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { getSearch, getSearchInit } from "../modules/common";
 
 // import useMovieSearch from "../features/movie/useMovieSearch";
 
@@ -174,6 +176,37 @@ const SignUp = styled.button`
 `;
 
 const Header = () => {
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+  const search = useSelector((state) => state.common.search);
+  const dispatch = useDispatch();
+
+  const getSearchList = useCallback(
+    (keyword) => {
+      dispatch(getSearch(keyword));
+    },
+    [dispatch]
+  );
+
+  const getSearchInitList = useCallback(
+    (keyword) => {
+      dispatch(getSearchInit());
+    },
+    [dispatch]
+  );
+
+  const handleKeyword = (e) => {
+    setSearchKeyword(e.target.value);
+  };
+
+  useEffect(() => {
+    if (searchKeyword) {
+      getSearchList(searchKeyword);
+    } else {
+      getSearchInitList();
+    }
+  }, [searchKeyword, getSearchList, getSearchInitList]);
+
   return (
     <Base>
       <Navigation>
@@ -204,7 +237,7 @@ const Header = () => {
                 }
                 to="/tv"
               >
-                TV프로그램
+                TV 프로그램
               </MenuButton>
             </Menu>
             <SearchMenu>
@@ -213,13 +246,28 @@ const Header = () => {
                   <SearchForm>
                     <SearchLabel>
                       <AiOutlineSearch />
-                      <SearchInput placeholder="콘텐츠, 인물, 컬렉션, 유저를 검색해보세요." />
+                      <SearchInput
+                        placeholder="콘텐츠, 인물, 컬렉션, 유저를 검색해보세요."
+                        onChange={handleKeyword}
+                      />
                     </SearchLabel>
                   </SearchForm>
                 </SearchFormWrapper>
               </SearchContainer>
               <SearchResultWrapper>
-                <SearchResultList></SearchResultList>
+                <SearchResultList>
+                  {search &&
+                    search.results.map((searchItem) => (
+                      <Link
+                        href={`/movie/${searchItem.id}`}
+                        key={searchItem.id}
+                      >
+                        <SearchResultListItem>
+                          {searchItem.title}
+                        </SearchResultListItem>
+                      </Link>
+                    ))}
+                </SearchResultList>
               </SearchResultWrapper>
             </SearchMenu>
             <Menu>
@@ -235,5 +283,4 @@ const Header = () => {
   );
 };
 
-// hook을 가져다 쓸 거라서 react memo 사용
 export default React.memo(Header);
