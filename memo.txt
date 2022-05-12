@@ -1,1 +1,2 @@
 TMDB API 문서 https://developers.themoviedb.org/3/getting-started/languages
+Swiper 리액트용 문서 https://swiperjs.com/react
