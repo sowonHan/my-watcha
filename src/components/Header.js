@@ -213,7 +213,7 @@ const Header = () => {
         <MenuListWrapper>
           <MenuList>
             <Menu>
-              <Link href="/">
+              <Link href={`/${process.env.REACT_APP_HOST}`}>
                 <TextLogo>
                   <span className="primary">MY</span>
                   <span>WATCHA</span>
@@ -225,7 +225,7 @@ const Header = () => {
                 className={(navData) =>
                   navData.isActive ? "active" : undefined
                 }
-                to="/"
+                to={`/${process.env.REACT_APP_HOST}`}
               >
                 영화
               </MenuButton>

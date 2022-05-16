@@ -10,7 +10,10 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Mainpage />} />
+          <Route
+            path={`/${process.env.REACT_APP_HOST}`}
+            element={<Mainpage />}
+          />
           <Route path="/tv" element={<TvPage />} />
           <Route path="/movie/:id" element={<MovieDetail />} />
           <Route path="/tv/:id" element={<TvDetail />} />
